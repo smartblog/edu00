@@ -36,12 +36,6 @@ class Checkout
   end
 end
 
-pricing_rules = {
-  'CC'=>['Coca-Cola', 1.50],
-  'PC'=>['Pepsi-Cola', 2.0],
-  'WA'=>['Water', 0.85]
-}
-
 co = Checkout.new
 item1 = Item.new('CC')
 item2 = Item.new('PC')
