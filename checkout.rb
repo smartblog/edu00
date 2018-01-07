@@ -18,7 +18,8 @@ end
 class Checkout
   attr_reader :items
 
-  def initialize
+  def initialize(pricing_rules)
+    @pricing_rules = pricing_rules
     @items = []
   end
 
@@ -26,17 +27,26 @@ class Checkout
     @items << Item.new(item)
   end
 
+
   def total
     summ = 0.0
-    pc = self.items.find_all{ |item| item.code == 'PC' }
-    self.items.each { |item| item.price = item.price * 0.8 if item.code == 'PC'} if pc.count >= 3
-
+    @pricing_rules.discount(self, 'PC')
     self.items.each { |item| summ = summ + item.price }
     summ
   end
 end
 
-co = Checkout.new
+class Discount1
+  def discount(checkout, discount_item)
+    #Discount %(percent) if items in checkout >= item_count
+    percent = 20
+    item_count = 3
+    discount_items = checkout.items.find_all{ |item| item.code == discount_item }
+    checkout.items.each { |item| item.price = item.price - (item.price / 100 * percent) if item.code == discount_item} if discount_items.count >= item_count
+  end
+end
+
+co = Checkout.new(Discount1.new)
 co.add('CC')
 co.add('PC')
 co.add('CC')
