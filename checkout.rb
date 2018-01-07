@@ -1,4 +1,4 @@
-$price_list = {
+PRICES = {
   "CC"=>['Coca-Cola', 1.50],
   "PC"=>['Pepsi-Cola', 2.0],
   "WA"=>['Water', 0.85]
@@ -10,8 +10,8 @@ class Item
 
   def initialize(code)
     @code = code
-    @title = $price_list[code][0]
-    @price = $price_list[code][1]
+    @title = PRICES[code][0]
+    @price = PRICES[code][1]
   end
 end
 
@@ -23,7 +23,7 @@ class Checkout
   end
 
   def add(item)
-    @items << item
+    @items << Item.new(item)
   end
 
   def total
@@ -37,20 +37,13 @@ class Checkout
 end
 
 co = Checkout.new
-item1 = Item.new('CC')
-item2 = Item.new('PC')
-item3 = Item.new('CC')
-item4 = Item.new('WA')
-item5 = Item.new('PC')
-item6 = Item.new('PC')
-co.add(item1)
-co.add(item2)
-co.add(item3)
-co.add(item4)
-co.add(item5)
-co.add(item6)
+co.add('CC')
+co.add('PC')
+co.add('CC')
+co.add('WA')
+co.add('PC')
+co.add('PC')
 
 p co.items
-p co.pricing_rules
 p co.total
 p co.items
